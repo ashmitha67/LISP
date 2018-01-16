@@ -1,0 +1,110 @@
+DIAGNOSE THE SUBTYPE OF ANAEMIA 
+
+Problem Description :
+		To find the subtype of anaemia the patient has incurred using PROLOG system.
+
+Solution Description :
+		Initially the confirmation is done if the patient has anaemia which is proceeded by a few set of questions which helps us determine the subtype of anaemia the patient has incurred. 
+
+LISP CODE:
+
+(terpri)                                                    ;newline
+(write-line "                                           ****************************************")
+(write-line "                                             Welcome to \"DIAGONISIS OF ANAEMIA\" ")
+(write-line "                                           ****************************************")
+(terpri)                                                    ;newline
+(defun Symptoms ()                                          ;defining a function Symptoms
+(princ "Does the patient exhibit any of the following \"weakness, lightheadedness, syncope, cardiac awareness, pallor, tachycardia\": ")
+(terpri)
+(setq REPLY (read))                                         ; The reply from the user 'Y' or 'N' is stored in REPLY
+    (case REPLY     
+    (Y                                                      ; If the patients exhibits any of the symptoms then get HEMATOCRIT and RBC level
+            (defun get-HEMATOCRIT-RBC ()
+            (terpri)                                        ; newline
+            (princ "Enter HEMATOCRIT value : ")
+            (terpri)
+            (setq HEMATOCRIT (read))                        ; The value of the HEMATOCRIT is read from the user and stored in HEMATOCRIT
+            (terpri)
+            (princ "Enter RBC value : ")
+            (terpri)
+            (setq RBC (read))                               ; The value of the RBC is read from the user and stored in RBC
+        ( if (>= HEMATOCRIT 36)                             ; Checks for the value of HEMATOCRIT
+		(print "FALSE - NOT ANAEMIA")                       ; if greater than 36 then print FALSE
+    ( case RBC                                              ; if HEMATOCRIT is lesser than 36 it checks the RBC level
+ 	(3 
+ 	(defun get-HISTORY()                                    ; if RBC is 3 checks if the patient has any history
+ 		(terpri)
+ 		(write-line "Patient has Anaemia ! We now will try to find the specific type.")
+ 		(terpri)
+ 		(princ "Has the patient suffered from any of the following Jaundice,gallstone,sphenomegally,hepatomegally,bony malformations,mental retardation : ")
+ 		(terpri)
+ 		(setq ANS (read))
+ 	(case ANS
+ 	(Y  (terpri)                                            ; if the patient has had any history of Jaundice,gallstone,... diseases then
+ 	    (princ "Has the patient suffered from microcytosis,eliptocytosis :" )
+ 	    (terpri)
+ 	    (setq ANS (read))
+ 	    (case ANS
+ 	        (Y  (terpri)                                    ; if the patient has any history of both the above mentioned then  
+ 	        (write-line "Based upon the diagonisis, the patient suffers from CONGENITAL HAEMOLYTIC ANAEMIA")
+ 	        )
+ 	        (N     (terpri)                                 ; if the patient suffers only from Jaundice,gallstone,... set of diseases
+ 	        (princ "Check for the level of spherocytosis :")
+ 	        (terpri)
+ 	        (setq SPHERO (read))
+ 	        (defvar *SPHERO* SPHERO)
+ 	        (cond ( 
+ 	        (>= *SPHERO* 50)
+ 	        (print "Based upon the diagonisis, the patient suffers from CONGENITAL HAEMOLYTIC ANAEMIA")
+ 	        )
+ 	        (   (< *SPHERO* 50)
+ 	        (print "Based upon the diagonisis, the patient suffers from ACQUIRED ANAEMIA")
+ 	        ))
+ 	        )
+ 	    )
+ 	 )
+ 	 (N                                                     ; if the patient does not suffer from the first mentioned set of diseases
+ 	    (princ "Enter the value of LDH High,Low,Normal :")
+ 	    (terpri)
+ 	    (setq LDH (read))
+ 	        (defmacro get-LDH (REPLY1)                      ;defining a macro
+            (case LDH 
+            (High (print "Based upon the diagonisis, the patient suffers from ACQUIRED ANAEMIA"))
+            (Low (print "FALSE - NOT ANAEMIA"))
+            (Normal (print "FALSE - NOT ANAEMIA"))
+            )
+            )
+ 	        (get-LDH REPLY1)                                ;calling it
+ 	  )   
+ 	  )
+ 	  ) 
+ 	    (get-HISTORY)                                       ; calling the function which checks for the history of diseases
+ 	  )
+ 	(4  
+ 	    (print "FALSE - NOT ANAEMIA")                       ; if RBC is 4 then
+ 	)    
+ 	(5 
+ 	    (princ "Enter the value of LDH :")                  ; if RBC is 5 get the LDH value
+ 	    (setq LDH (read))
+ 	    (defvar *LDH* LDH)
+ 	    (defmacro get-LDH-val (LDH)                         ; LDH got from the user is passed
+            (when (>= *LDH* 100 )
+            (print "Based upon the diagonisis, the patient suffers from ACQUIRED ANAEMIA")
+            )
+    
+            (unless (not (<= *LDH* 100)) 
+            (print "FALSE - NOT ANAEMIA")
+            )
+        )
+ 		(get-LDH-val *LDH*)                                 ;calls get-LDH-val macro
+ 	)
+ 	(otherwise  
+ 	(print "Give the value of RBC between 3 to 5..TRY AGAIN")   ;only the values 3,4,5 of RBC can be entered
+ 	)
+ 	)
+ 	)
+))
+    (N
+    (print "FALSE - NOT ANAEMIA")))                             ;if there is no symptoms of weakness, lightheadedness,....then it's not anaemia
+(get-HEMATOCRIT-RBC)) 
+(Symptoms)
